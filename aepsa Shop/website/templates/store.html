@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    aespa Shop | Store
+{% endblock %}
+
+{% block content %}
+<section>
+    <!-- MUSIC SECTION -->
+    <h2 class="section-header">Album</h2>
+    <div class="shop-items-all">
+        {% for album in albums %}
+        <div class="shop-item card" style="border-color: transparent;">
+            <img class="shop-item-image" src={{album.img_src}} height="100px"/>
+            <span class="shop-item-title">{{album.prod_title}}</span>
+            <div class="shop-item-details">
+                <span class="shop-item-price">{{album.unit_price}}</span>
+                <button title="Add to Cart" class="btn general-btn shop-item-btn" type="button" onclick="addToCart(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="shop-item-rating">
+                {% if album.public_reviews|length > 0 %}
+                    {{album.avg_rating / album.public_reviews|length}} stars ({{album.public_reviews|length}})
+                {% else %}
+                    No reviews (0)
+                {% endif %}
+            </div>
+            <button title="View Album" class="shop-item-details btn view-btn" data-bs-toggle="modal" data-bs-target={{ "#album" + loop.index|string }}>
+                View Album
+            </button>
+        </div>
+        {% endfor %}
+</section>
+
+<!-- MERCH SECTION -->
+<section>
+    <h2 class="section-header">Album</h2>
+    <div class="shop-items-all">
+        {% for merch_item in merch %}
+        <div class="shop-item card" style="border-color: transparent;">
+            <img class="shop-item-image" type="image/png" src={{merch_item.img_src}} height="100px"/>
+            <span class="shop-item-title">{{merch_item.prod_title}}</span>
+            <div class="shop-item-details row">
+                <span class="shop-item-price col">{{merch_item.unit_price}}</span>
+                {% if 'Black' in merch_item.prod_title %}
+                <select class="form-control col size-option" id="blackHoodSize">
+                {% else %}
+                <select class="form-control col size-option" id="whiteHoodSize">
+                {% endif %}
+                    <option value="Small" selected>S</option>
+                    <option value="Medium">M</option>
+                    <option value="Large">L</option>
+                </select>
+                <button title="Add to Cart" type="button" class="btn general-btn shop-item-btn col" onclick="addToCart(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="shop-item-rating">
+                {% if merch_item.public_reviews|length > 0 %}
+                    {{merch_item.avg_rating / merch_item.public_reviews|length}} stars ({{merch_item.public_reviews|length}})
+                {% else %}
+                    No reviews (0)
+                {% endif %}
+            </div>
+            {% if 'Black' in merch_item.prod_title %}
+            <button title="View Product" class="shop-item-details btn view-btn" data-bs-toggle="modal" data-bs-target="#blackhood">
+            {% else %}
+            <button title="View Product" class="shop-item-details btn view-btn" data-bs-toggle="modal" data-bs-target="#whitehood">
+            {% endif %}
+                View Product
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+
+<!-- ALBUMS 1, 2, 3, 4 MODALS -->
+{% for album in albums %}
+<div class="modal fade" id={{ "album" + loop.index|string }} tabindex="-1" aria-labelledby={{ "album" + loop.index|string + "Modal" }} aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id={{ "album" + loop.index|string + "Label" }}>{{album.prod_title}} (Album)</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- GALLERY -->
+                <img src={{album.img_src}} width="160px" height="160px" class="modal-img shadow">
+                <img src={{album.img_src}} width="80px" class="preview-img" style="border-color: black; border-radius: 5px;" onclick="showImg(this)">
+                <img src={{album.alt_src}} width="80px" height="80px" class="preview-img" style="border-radius: 5px;" onclick="showImg(this)">
+
+                <div class="modal-details">
+                    <p class="modal-subtitle">DESCRIPTION</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <span class="row">
+                        <p class="modal-subtitle col">PRICE</p>
+                        <p class="col">{{album.unit_price}}</p>
+                    </span>
+                    <span class="row">
+                        <p class="modal-subtitle col">RELEASED</p>
+                        <p class="col">{{album.release_date}}</p>
+                    </span>
+                    <span class="row">
+                        <p class="modal-subtitle col">WEIGHT</p>
+                        <p class="col">{{album.weight}}</p>
+                    </span>
+                    <span class="row">
+                        <p class="modal-subtitle col">SPECS</p>
+                        <p class="col">{{album.specs}}</p>
+                    </span>
+                    <!-- ALBUM REVIEWS -->
+                    <div>
+                        <span class="row">
+                            <p class="modal-subtitle col">REVIEWS</p>
+                            {% if album.public_reviews|length == 0 %}
+                                <p class="col">Currently, no reviews available.</p>
+                            {% else %}
+                            <p class="col">
+                                {{album.avg_rating / album.public_reviews|length}} stars ({{album.public_reviews|length}})
+                            </p>
+                            {% endif %}
+                        </span>
+
+                        {% for review in album.public_reviews %}
+                            {% if review.content|length > 0 %}
+                                <div>
+                                    <span class="review-username">{{review.username}}</span> | 
+                                        {% for i in range(review.rating) %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        {% endfor %}
+                                        {% for i in range(5 - review.rating) %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                            </svg>
+                                        {% endfor %}
+                                    </span> | <span class="review-date">{{review.review_date}}</span>
+                                </div>
+                                {{review.content}}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+<!-- BLACK / WHITE HOOD MODALS -->
+{% for merch_item in merch %}
+
+{% if 'Black' in merch_item.prod_title %}
+<div class="modal fade" id="blackhood" tabindex="-1" aria-labelledby="blackhoodModal" aria-hidden="true">
+{% else %}
+<div class="modal fade" id="whitehood" tabindex="-1" aria-labelledby="whitehoodModal" aria-hidden="true">
+{% endif %}
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                {% if 'Black' in merch_item.prod_title %}
+                <h1 class="modal-title fs-5" id="blackhoodLabel">{{merch_item.prod_title}}</h1>
+                {% else %}
+                <h1 class="modal-title fs-5" id="whitehoodLabel">{{merch_item.prod_title}}</h1>
+                {% endif %}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src={{merch_item.img_src}} width="150px" class="modal-img shadow">
+                <div class="modal-details" style="display:inline-block;">
+                    <p class="modal-subtitle">DESCRIPTION</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <span class="row">
+                        <p class="modal-subtitle col">PRICE</p>
+                        <p class="col">{{merch_item.unit_price}}</p>
+                    </span>
+                    <span class="row">
+                        <p class="modal-subtitle col">MATERIAL</p>
+                        <p class="col">{{merch_item.material}}.<br>Exclusive of design.</p>
+                    </span>
+                    <span class="row">
+                        <p class="modal-subtitle col">MADE IN</p>
+                        <p class="col">{{merch_item.origin}}</p>
+                    </span>
+                    <!-- MERCH REVIEWS -->
+                    <div>
+                        <span class="row">
+                            <p class="modal-subtitle col">REVIEWS</p>
+                            {% if merch_item.public_reviews|length == 0 %}
+                                <p class="col">Currently, no reviews available.</p>
+                            {% else %}
+                                <p class="col">
+                                    {{merch_item.avg_rating / merch_item.public_reviews|length}} stars ({{merch_item.public_reviews|length}})
+                                </p>
+                            {% endif %}
+                        </span>
+                        
+                        {% for review in merch_item.public_reviews %}
+                            {% if review.content|length > 0 %}
+                                <div>
+                                    <span class="review-username">{{review.username}}</span> | 
+                                        {% for i in range(review.rating) %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                            </svg>
+                                        {% endfor %}
+                                        {% for i in range(5 - review.rating) %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                            </svg>
+                                        {% endfor %}
+                                    </span> | <span class="review-date">{{review.review_date}}</span>                                </div>
+                                {{review.content}}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<br>
+
+<script>
+    // function call when page loads 
+    toggleEmptyCart("merch-total-price", "empty-merch-text", "checkout-merch-btn");
+</script>
+
+{% endblock %}

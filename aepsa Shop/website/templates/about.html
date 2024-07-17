@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    aespa Shop | About
+{% endblock %}
+  
+{% block content %}
+<section>
+    <h2 class="section-header">About Us</h2>
+    
+    <div id="gallery" class="shadow">
+        <div id="carousel" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="aespa Photo 1"></button>
+                <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="aespa Photo 2"></button>
+                <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="aespa Photo 3"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://shop.aespa-officialus.com/cdn/shop/files/aespa-M3-Intro-CoverImage_1100x.jpg?v=1682447109.jpg" class="selected-img d-block w-100" alt="aespa photo">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://i.bloganchoi.com/bloganchoi.com/wp-content/uploads/2023/05/ae-cannes1-696x463.jpg?fit=700%2C20000&quality=95&ssl=1.jpg" alt="aespa photo" class="selected-img d-block w-100">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://thanhnien.mediacdn.vn/Uploaded/ngocthanh/2022_05_14/1-9730.jpg" alt="aespa photo" class="selected-img d-block w-100">
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="gallery-arrow bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    </svg>
+                </span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="gallery-arrow bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg>
+                </span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <p class="about-text">
+        Aespa là một nhóm nhạc nữ Hàn Quốc gồm 4 thành viên: Karina, Giselle, Winter và Ningning do công ty giải trí SM Entertainment thành lập và quản lý. Nhóm ra mắt vào ngày 17 tháng 11 năm 2020 với đĩa đơn đầu tay "Black Mamba".
+    </p>
+
+    <p class="about-text">
+        Aespa có một thế giới quan độc đáo, trong đó mỗi thành viên có một phiên bản AI của chính mình. Thế giới quan này được thể hiện trong các bài hát, MV và các hoạt động của nhóm. Aespa là một nhóm nhạc nữ tài năng và đầy triển vọng. Nhóm đang dần trở thành một trong những nhóm nhạc nữ hàng đầu của K-pop.
+    </p>
+
+    <br>
+    <h2 class="section-header">Members</h2>
+    <div class="bio-all">
+        <div class="bio-parent shadow">
+            <img class="bio-img" src="https://shop.aespa-officialus.com/cdn/shop/files/054391382542_WINTERVer_1445x.jpg?v=1695164359.jpg"  style="width:100%;" alt="Winter">
+            <div class="bio-text">
+                <h3>Winter</h3>
+                <p>Lead vocalist</p>
+            </div>
+        </div>
+
+        <div class="bio-parent shadow">
+            <img class="bio-img" src="https://shop.aespa-officialus.com/cdn/shop/files/054391382535_KARINAVer_1445x.jpg?v=1695164323.jpg"  style="width:100%;" alt="Karina">
+            <div class="bio-text">
+                <h3>Karina</h3>
+                <p>Rapper</p>
+            </div>
+        </div>
+
+        <div class="bio-parent shadow">
+            <img class="bio-img" src="https://shop.aespa-officialus.com/cdn/shop/files/054391382559_NINGNINGVer_1445x.jpg?v=1695164337.jpg"  style="width:100%;" alt="NingNing">
+            <div class="bio-text">
+                <h3>NingNing</h3>
+                <p>Main Vocals</p>
+            </div>
+        </div>
+
+        <div class="bio-parent shadow">
+            <img src="https://shop.aespa-officialus.com/cdn/shop/files/054391382566_GISELLEVer_1445x.jpg?v=1695164292.jpg"   style="width:100%;" alt="Giselle">
+            <div class="bio-text">
+                <h3>Giselle</h3>
+                <p>Rapper</p>
+            </div>
+        </div>
+
+   
+        </div>
+
+    </div>
+
+</section>
+
+<br>
+<br>
+
+{% endblock %}

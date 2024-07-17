@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- BOOTSTRAP -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <!-- Custom CSS -->
+        <link type="text/css" href="../static/style.css" rel="stylesheet"/>
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="Aespa_logo.jpg"
+        />
+        <title>{% block title %}{% endblock title %}</title>
+    </head>
+
+    <header class="shadow">
+        <!-- NAV BAR -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!-- NAV BAR -->
+                <button
+                    class="navbar-toggler"
+                    type="button btn"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar"
+                    aria-controls="navbar" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </span>
+                </button>
+                <div class="collapse navbar-collapse custom-navbar" id="navbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index">H O M E</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">A B O U T</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/store">S T O R E</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="view-cart-span btn-group">
+                <!-- LOGIN / LOGOUT -->
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button type="button" class="btn view-cart-btn header-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="account">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                            Account
+                        </button>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <button type="button" style="background-color: transparent; border:none;" id="user">{{username}}</button>
+                            </li>
+                            <li>
+                                <button type="button" id="history" onclick="document.location.href='/account'">order history</button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn" id="reviews" onclick="document.location.href='/reviews'">my reviews</button>
+                            </li>
+                            <!--
+                            <li>
+                                <button type="button" class="btn" id="settings" onclick="document.location.href='/settings'">settings</button>
+                            </li>
+                            -->
+                            <li>
+                                <button type="button" id="logout" onclick="document.location.href='/logout'">logout</button>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="dropdown">
+                        <button type="button" class="btn view-cart-btn header-btn dropdown-toggle" id="guest" data-bs-toggle="dropdown" aria-expanded="false">login/signup</button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button type="button" id="login" onclick="document.location.href='/login'">login</button>
+                            </li>
+                            <li>
+                                <button type="button" id="register" onclick="document.location.href='/register'">create account</button>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+                <!-- CHECK IF CURRENT PAGE IS STORE PAGE -->
+                {% if hideCart == false %}
+                <button title="View Cart" class="btn view-cart-btn header-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="updateCartTotal()">
+                    <svg id="cart-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <span class="badge rounded-pill text-bg-dark cart-notif">0</span>
+                </button>
+                {% else %}
+                <a href="/store" class="icon-link icon-link-hover btn view-cart-btn header-btn" style="width:200px;">
+                    Explore shop!
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+        
+        <h3 class="band-name">aespa Shop</h3>
+        
+        <!-- FREE SHIPPING BANNER -->
+        {% if hideCart == false %}
+        <div class="banner alert alter-dismissable fade show" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+            </svg>
+            Members get FREE shipping!
+            {% if user.is_authenticated == false %}
+                <a href="/login" class="alert-link">Sign in</a> or <a href="/register" class="alert-link">create an account!</a>
+            {% endif %}
+            <button type="button" class="close-btn" data-bs-dismiss="alert" aria-label="Close" title="Close alert">
+                <span aria-hidden="true" style="color:white;">
+                    &#x2715
+                </span>
+            </button>
+        </div>
+        {% endif %}
+    </header>
+
+    <body>
+        <!-- SHOW FLASHED MESSAGES -->
+        <div>
+            <div id="flashed-div">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-secondary alter-dismissable fade show" role="alert">
+                            {% if category == 'lookup-error' %}
+                                <h5 class="alert-header">No matching Orders.</h5>
+                            {% endif %}
+                            {{ message }}
+                            <button type="button" class="close-btn" data-bs-dismiss="alert" aria-label="Close" title="Close alert">
+                                <span aria-hidden="true" style="color:black">
+                                    &#x2715
+                                </span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+
+            <button class="icon-link icon-link-hover shadow-lg btn general-btn" id="topButton" title="Back to Top" onclick="topFunction()" style="--bs-icon-link-transform: translate3d(0, -.15rem, 0);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+                TOP
+                <br>
+            </button>
+
+            <!-- SHOPPING CART OFFCANVAS -->        
+            <section>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    
+                    <div class="offcanvas-header">
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+
+                    <div class="offcanvas-body">
+                        <h2 class="section-header">cart</h2>
+                        <!-- CART HEADER ROW -->
+                        <div class="cart-row">
+                            <span class="cart-item cart-header cart-type-header cart-column">ITEM</span>
+                            <span class="cart-price cart-header cart-column">PRICE</span>
+                            <span class="cart-amount cart-header cart-column">QUANTITY</span>
+                        </div>
+
+                        <!-- EMPTY CART TEXT -->
+                        <div id="empty-merch-text">
+                            Your cart is currently empty.
+                            <br>
+                            Continue browsing <button class="button arena-link"  data-bs-dismiss="offcanvas" onclick="document.location.href='/store'" style="font-family:'Syne', 'Times';">here</button>
+                        </div>
+                
+
+                        <!-- ALL CART ITEMS -->
+                        <div class="cart-items-all">
+                            <!-- Cart items inserted interactively here -->
+                        </div>
+                        
+                        <!-- CHECKOUT -->
+                        <div class="cart-total">
+                            <span class="cart-total-label">TOTAL</span>
+                            <span id="merch-total-price" class="cart-total-price">$0.00</span>
+                        </div>
+                        <div class="submit-cart" id="checkout-merch-btn">
+                            <button type="button" class="icon-link icon-link-hover purchase-btn btn" onclick="startCheckout(this, 'merch')">
+                                CHECKOUT
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WEB PAGE CONTENT HERE -->
+            {% block content %} {% endblock %}
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="flex-footer">
+                <!-- LOGO -->
+                <a href="#" class="flex-footer-logo">
+                    <img src="/picture/logo.jpg" width="80"/>
+                </a>
+
+                <div class="footer-center">
+                    <div class="footer-text">
+                        L I N K S
+                    </div>
+                    <a href="/about" class="footer-link">About</a>
+                    <a href="/find-order" class="footer-link">Lookup order</a>
+                    
+                </div>
+    
+                <span class="flex-footer-socials">
+                    <!-- YOUTUBE -->
+                    <a href="https://www.youtube.com/@aespa" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="gray" class="bi bi-youtube social-icon" viewBox="0 0 16 16">
+                            <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
+                        </svg>
+                    </a>
+    
+                    <a href="https://open.spotify.com/artist/6YVMFz59CuY7ngCxTxjpxE" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="gray" class="bi bi-spotify social-icon" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.669 11.538a.498.498 0 0 1-.686.165c-1.879-1.147-4.243-1.407-7.028-.77a.499.499 0 0 1-.222-.973c3.048-.696 5.662-.397 7.77.892a.5.5 0 0 1 .166.686zm.979-2.178a.624.624 0 0 1-.858.205c-2.15-1.321-5.428-1.704-7.972-.932a.625.625 0 0 1-.362-1.194c2.905-.881 6.517-.454 8.986 1.063a.624.624 0 0 1 .206.858zm.084-2.268C10.154 5.56 5.9 5.419 3.438 6.166a.748.748 0 1 1-.434-1.432c2.825-.857 7.523-.692 10.492 1.07a.747.747 0 1 1-.764 1.288z"/>
+                        </svg>
+                    </a>
+    
+                    <!-- INSTAGRAM -->
+                    <a href="https://www.instagram.com/aespa_official/" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="gray" class="bi bi-instagram social-icon" viewBox="0 0 16 16">
+                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                        </svg>
+                    </a>
+                </span>
+            </div>
+        </footer>
+
+        <!-- JAVASCRIPT, POPPER FOR BOOTSTRAP ELEMENTS -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+        <!-- JS for store operations -->
+        <script src="../static/store-tix-ops.js"></script>
+
+        <!-- BACK TO TOP BUTTON JS -->
+        <script>
+            // Get the button
+            let mybutton = document.getElementById("topButton");
+            
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+            function scrollFunction() {
+                if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+            
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+    </body>    
+</html>

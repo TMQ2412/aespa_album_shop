@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    aespa Shop | Home
+{% endblock %}
+
+{% block content %}
+
+<section>
+    <h2 class="section-header">tours & concerts</h2>
+    <div class="tour-div">
+        {% for concert in concerts %}
+        <div class="tour-row flexbox-container">
+            <span class="tour-item tour-date">{{concert.date}}</span>
+            <span class="tour-item tour-city">{{concert.venue_location}}</span>
+            <span class="tour-item tour-arena">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                </svg>
+                {{concert.venue_arena}}
+            </span>
+            <span class="flexbox-btn tour-item tour-title"> 
+                {{concert.title}}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+</div>
+{% endblock %}
